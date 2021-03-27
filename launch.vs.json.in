@@ -1,0 +1,26 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+   "configurations": [
+      {
+         "type": "mixed",
+         "project": "CMakeLists.txt",
+         "projectTarget": "corowidget.exe (@CMAKE_RUNTIME_OUTPUT_DIRECTORY_BACKSLASHED@\\Debug\\corowidget.exe)",
+         "name": "Coro Widget App Debug",
+         "args": [ "-c", "-u=admin:pass" ],
+         "env": {
+            "Path": "c:\\Qt\\5.15.2\\msvc2019\\\bin;c:\\develop\\runtime_deps_ems_v7_2;${env.PATH}"
+         }
+      },
+      {
+         "type": "default",
+         "project": "CMakeLists.txt",
+         "projectTarget": "corowidget.exe (@CMAKE_RUNTIME_OUTPUT_DIRECTORY_BACKSLASHED@\\Release\\corowidget.exe)",
+         "name": "Coro Widget App Release",
+         "args": [ "-c", "--simu" ],
+         "env": {
+            "Path": "c:\\Qt\\5.15.2\\msvc2019\\\bin;c:\\develop\\runtime_deps_ems_v7_2;${env.PATH}"
+         }
+      }
+   ]
+}
