@@ -17,35 +17,15 @@
 #include <QWidget>
 #include <QLine>
 
-class ColorRect : public QWidget
-{
-   Q_OBJECT
+#include <sqlite3.h>
 
-public:
-   ColorRect(QWidget *parent = 0);
-
-public slots:
-   void changeColor();
-   void setLine(QPointF, QPointF);
-
-signals:
-   void click(QPointF);
-   void lineCreated(QPointF, QPointF);
-
-protected:
-   void mousePressEvent(QMouseEvent *) override;
-   void paintEvent(QPaintEvent *event) override;
-
-private:
-   void setColor(std::string const&);
-   std::vector<std::string> m_colorList;
-   std::size_t              m_curColor;
-   std::optional<QLineF>    m_line;
-};
+#include "ColorRect.h"
 
 int main(int argc, char *argv[])
 {
    std::cout << "Hello World!\n";
+
+   std::cout << sqlite3_libversion();
 
    std::cout << std::endl;
 

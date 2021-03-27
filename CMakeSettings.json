@@ -20,6 +20,10 @@
          "ctestCommandArgs": "",
          "variables": [
             {
+               "name": "CMAKE_TOOLCHAIN_FILE",
+               "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake"
+            },
+            {
                "name": "SHOW_WIDGET",
                "value": "true",
                "type": "BOOL"
@@ -42,6 +46,10 @@
          "cmakeCommandArgs": "",
          "ctestCommandArgs": "",
          "variables": [
+            {
+               "name": "CMAKE_TOOLCHAIN_FILE",
+               "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake"
+            },
             {
                "name": "SHOW_WIDGET",
                "value": "true",
