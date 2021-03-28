@@ -33,11 +33,5 @@ cmake_dependent_option(CMAKE_UNITY_BUILD "Use Unity Build" ON "ALLOW_UNITY_BUILD
 message(STATUS "Unity builds are ${CMAKE_UNITY_BUILD}")
 
 # Prepare the build
-option(SHOW_CONSOLE "Console" ON)
-option(SHOW_WIDGET "Widget App" ON)
-
-if (${SHOW_CONSOLE} OR ${SHOW_WIDGET})
-    # add_subdirectory(source/common)
-    # add_subdirectory(source/coroconsole)
-    add_subdirectory(source/coroqtwidget)
-endif()
+add_subdirectory(source/coroconsole)
+add_subdirectory(source/coroqtwidget)

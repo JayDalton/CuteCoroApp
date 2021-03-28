@@ -5,6 +5,26 @@
       {
          "type": "mixed",
          "project": "CMakeLists.txt",
+         "projectTarget": "CuteConsole.exe (C:\\Repository\\CuteCoroApp\\Debug\\CuteConsole.exe)",
+         "name": "Console Debug",
+         "args": [ "-c", "-x=value" ],
+         "env": {
+            "Path": "c:\\Qt\\5.15.2\\msvc2019\\bin;${env.PATH}"
+         }
+      },
+      {
+         "type": "mixed",
+         "project": "CMakeLists.txt",
+         "projectTarget": "CuteConsole.exe (C:\\Repository\\CuteCoroApp\\RelWithDebInfo\\CuteConsole.exe)",
+         "name": "Console Release",
+         "args": [ "-c", "-x=value" ],
+         "env": {
+            "Path": "c:\\Qt\\5.15.2\\msvc2019\\bin;${env.PATH}"
+         }
+      },
+      {
+         "type": "mixed",
+         "project": "CMakeLists.txt",
          "projectTarget": "CuteWidgetApp.exe (C:\\Repository\\CuteCoroApp\\Debug\\CuteWidgetApp.exe)",
          "name": "WidgetApp Debug",
          "args": [ "-c", "-x=value" ],

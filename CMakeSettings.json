@@ -11,7 +11,7 @@
     {
       "addressSanitizerEnabled": true,
       "cmakeExecutable": "${env.CMakeExecutable}",
-      "name": "WidgetApp Debug",
+      "name": "CuteCoro Debug",
       "generator": "${env.Generator}",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x86" ],
@@ -26,11 +26,6 @@
           "type": "STRING"
         },
         {
-          "name": "SHOW_WIDGET",
-          "value": "true",
-          "type": "BOOL"
-        },
-        {
           "name": "CMAKE_SYSTEM_VERSION",
           "value": "10.0.17763.0",
           "type": "INTERNAL"
@@ -40,7 +35,7 @@
     {
       "addressSanitizerEnabled": true,
       "cmakeExecutable": "${env.CMakeExecutable}",
-      "name": "WidgetApp Release",
+      "name": "CuteCoro Release",
       "generator": "${env.Generator}",
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x86" ],
@@ -53,11 +48,6 @@
           "name": "CMAKE_TOOLCHAIN_FILE",
           "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake",
           "type": "STRING"
-        },
-        {
-          "name": "SHOW_WIDGET",
-          "value": "true",
-          "type": "BOOL"
         },
         {
           "name": "CMAKE_SYSTEM_VERSION",

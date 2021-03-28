@@ -1,12 +1,20 @@
 #pragma once
 
-#include <iostream>
 #include <algorithm>
+#include <deque>
 #include <coroutine>
 #include <concepts>
-#include <ranges>
-
+#include <iostream>
+#include <iomanip>
+#include <list>
+#include <memory>
 #include <numbers>
+#include <optional>
+#include <ranges>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <vector>
 
 //#include <format>
 #include <fmt/core.h>
@@ -15,8 +23,3 @@
 #include <fmt/ranges.h>
 #include <fmt/os.h>
 
-#include <deque>
-#include <string>
-#include <string_view>
-#include <vector>
-#include <list>
