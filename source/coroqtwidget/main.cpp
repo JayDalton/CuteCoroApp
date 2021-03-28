@@ -2,8 +2,6 @@
 
 #include "CuteWidgetApp.h"
 
-#include "stdafx.h"
-
 #include "QtCoro.h"
 
 #include <iomanip>
@@ -16,6 +14,8 @@
 #include <string>
 #include <QWidget>
 #include <QLine>
+#include <QTimer>
+#include <QCommandLineParser>
 
 #include <sqlite3.h>
 
@@ -23,59 +23,17 @@
 
 int main(int argc, char *argv[])
 {
-   std::cout << "Hello World!\n";
-
-   std::cout << sqlite3_libversion();
-
-   std::cout << std::endl;
-
-   std::cout << std::setprecision(10);
-
-   std::cout << "std::numbers::e: " << std::numbers::e << std::endl;
-   std::cout << "std::numbers::log2e: " << std::numbers::log2e << std::endl;
-   std::cout << "std::numbers::log10e: " << std::numbers::log10e << std::endl;
-   std::cout << "std::numbers::pi: " << std::numbers::pi << std::endl;
-   std::cout << "std::numbers::inv_pi: " << std::numbers::inv_pi << std::endl;
-   std::cout << "std::numbers::inv_sqrtpi: " << std::numbers::inv_sqrtpi << std::endl;
-   std::cout << "std::numbers::ln2: " << std::numbers::ln2 << std::endl;
-   std::cout << "std::numbers::sqrt2: " << std::numbers::sqrt2 << std::endl;
-   std::cout << "std::numbers::sqrt3: " << std::numbers::sqrt3 << std::endl;
-   std::cout << "std::numbers::inv_sqrt3: " << std::numbers::inv_sqrt3 << std::endl;
-   std::cout << "std::numbers::egamma: " << std::numbers::egamma << std::endl;
-   std::cout << "std::numbers::phi: " << std::numbers::phi << std::endl;
-
-   std::cout << std::endl;
-
-   std::vector<int> numbers{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
-   std::cout << fmt::format("The answer is {} \n", numbers);
-
-   auto results = numbers
-      | std::views::filter([](int n) { return n % 2 == 0; })
-      | std::views::transform([](int n) { return n * 2; })
-      | std::views::reverse
-      | std::views::take(3);
-
-   for (auto v : results)
-   {
-      std::cout << v << " ";
-   }
-
-   std::cout << "\nEnde Program!\n";
-
-   auto arr1 = std::string("C-String Literal");
-   if (arr1.starts_with("hello"))
-   {
-   }
-
-   auto x = 22;
-   auto y = std::to_string(9);
-   auto a = std::stoi(std::to_string(++x) + y);
-   std::cout << y << ++x;
-
-
    QApplication app(argc, argv);
    //CuteWidgetApp w;
    //w.show();
+
+   QCommandLineParser parser;
+   parser.addOptions({
+      {{"c", "config"}, QCoreApplication::translate("main", "Show config dialog on startup")},
+      });
+
+   parser.process(QApplication::arguments());
+   bool forceConfigEditor = parser.isSet("c");
 
    // a really simple widget
    ColorRect cr;

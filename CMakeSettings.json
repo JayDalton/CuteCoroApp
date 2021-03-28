@@ -1,78 +1,83 @@
 {
-   "environments": [
-      {
-         "Generator": "Visual Studio 16 2019",
-         "BuildDir": "C:\\Repository\\CMakeBuilds\\${workspaceHash}",
-         "BuildCommandArguments": "/maxcpucount /p:Platform=x86 /p:PreferredToolArchitecture=x64",
-         "CMakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe"
-      }
-   ],
-   "configurations": [
-      {
-         "cmakeExecutable": "${env.CMakeExecutable}",
-         "name": "CORO Widget App Debug",
-         "generator": "${env.Generator}",
-         "configurationType": "Debug",
-         "inheritEnvironments": [ "msvc_x86" ],
-         "buildRoot": "${env.BuildDir}\\${name}",
-         "buildCommandArgs": "${env.BuildCommandArguments}",
-         "cmakeCommandArgs": "",
-         "ctestCommandArgs": "",
-         "variables": [
-            {
-               "name": "CMAKE_TOOLCHAIN_FILE",
-               "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake"
-            },
-            {
-               "name": "SHOW_WIDGET",
-               "value": "true",
-               "type": "BOOL"
-            },
-            {
-               "name": "CMAKE_SYSTEM_VERSION",
-               "value": "10.0.17763.0",
-               "type": "INTERNAL"
-            }
-         ]
-      },
-      {
-         "cmakeExecutable": "${env.CMakeExecutable}",
-         "name": "CORO Widget App Release",
-         "generator": "${env.Generator}",
-         "configurationType": "RelWithDebInfo",
-         "inheritEnvironments": [ "msvc_x86" ],
-         "buildRoot": "${env.BuildDir}\\${name}",
-         "buildCommandArgs": "${env.BuildCommandArguments}",
-         "cmakeCommandArgs": "",
-         "ctestCommandArgs": "",
-         "variables": [
-            {
-               "name": "CMAKE_TOOLCHAIN_FILE",
-               "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake"
-            },
-            {
-               "name": "SHOW_WIDGET",
-               "value": "true",
-               "type": "BOOL"
-            },
-            {
-               "name": "CMAKE_SYSTEM_VERSION",
-               "value": "10.0.17763.0",
-               "type": "INTERNAL"
-            }
-         ]
-      },
-      {
-         "cmakeExecutable": "${env.CMakeExecutable}",
-         "name": "Update all sources lists",
-         "buildRoot": "${env.BuildDir}\\${name}",
-         "variables": [
-            {
-               "name": "UPDATE_ALL_PROJECTS",
-               "value": "true",
-               "type": "BOOL"
-            }
-         ]
-      }
-   ]
+  "environments": [
+    {
+      "Generator": "Visual Studio 16 2019",
+      "BuildDir": "C:\\Temp\\CMakeBuilds\\${workspaceHash}",
+      "BuildCommandArguments": "/maxcpucount /p:Platform=x86 /p:PreferredToolArchitecture=x64",
+      "CMakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe"
+    }
+  ],
+  "configurations": [
+    {
+      "addressSanitizerEnabled": true,
+      "cmakeExecutable": "${env.CMakeExecutable}",
+      "name": "WidgetApp Debug",
+      "generator": "${env.Generator}",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "buildRoot": "${env.BuildDir}\\${name}",
+      "buildCommandArgs": "${env.BuildCommandArguments}",
+      "cmakeCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake",
+          "type": "STRING"
+        },
+        {
+          "name": "SHOW_WIDGET",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "CMAKE_SYSTEM_VERSION",
+          "value": "10.0.17763.0",
+          "type": "INTERNAL"
+        }
+      ]
+    },
+    {
+      "addressSanitizerEnabled": true,
+      "cmakeExecutable": "${env.CMakeExecutable}",
+      "name": "WidgetApp Release",
+      "generator": "${env.Generator}",
+      "configurationType": "RelWithDebInfo",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "buildRoot": "${env.BuildDir}\\${name}",
+      "buildCommandArgs": "${env.BuildCommandArguments}",
+      "cmakeCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake",
+          "type": "STRING"
+        },
+        {
+          "name": "SHOW_WIDGET",
+          "value": "true",
+          "type": "BOOL"
+        },
+        {
+          "name": "CMAKE_SYSTEM_VERSION",
+          "value": "10.0.17763.0",
+          "type": "INTERNAL"
+        }
+      ]
+    },
+    {
+      "cmakeExecutable": "${env.CMakeExecutable}",
+      "name": "Update all sources lists",
+      "buildRoot": "${env.BuildDir}\\${name}",
+      "variables": [
+        {
+          "name": "UPDATE_ALL_PROJECTS",
+          "value": "true",
+          "type": "BOOL"
+        }
+      ],
+      "inheritEnvironments": []
+    }
+  ]
 }
