@@ -3,15 +3,15 @@
 #include "common.h"
 #include "commoncute.h"
 
-#include "ui_CuteWidgetApp.h"
+namespace Ui { class CuteWidgetAppClass; };
 
 class CuteWidgetApp : public QMainWindow
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
-    CuteWidgetApp(QWidget *parent = nullptr);
+   CuteWidgetApp(QWidget* parent = nullptr);
 
 private:
-    Ui::CuteWidgetAppClass ui;
+   std::unique_ptr<Ui::CuteWidgetAppClass> m_ui;
 };

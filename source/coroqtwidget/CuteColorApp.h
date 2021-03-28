@@ -19,8 +19,8 @@ signals:
    void lineCreated(QPointF, QPointF);
 
 protected:
-   void mousePressEvent(QMouseEvent *) override;
-   void paintEvent(QPaintEvent *event) override;
+   void mousePressEvent(QMouseEvent*) override;
+   void paintEvent(QPaintEvent* event) override;
 
 private:
    void setColor(std::string const&);

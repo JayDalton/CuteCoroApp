@@ -9,30 +9,20 @@ int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
 
-   QCommandLineParser parser;
-   parser.addOptions({
-      {{"c", "config"}, QCoreApplication::translate("main", "Show config dialog on startup")},
-      });
-
-   parser.process(QApplication::arguments());
-   bool forceConfigEditor = parser.isSet("c");
-
-   //CuteWidgetApp w;
-   //w.show();
    ColorRect cr;
    cr.setWindowTitle("Color Cycler");
    cr.show();
 
    // change widget color every 500ms
-   QTimer* changeTimer = new QTimer(&app);
+   auto timer{ std::make_unique<QTimer>(&app) };
    auto ro = [&]() -> qtcoro::return_object<> {
       while (true) {
-         co_await qtcoro::make_awaitable_signal(changeTimer, &QTimer::timeout);
+         co_await qtcoro::make_awaitable_signal(timer.get(), &QTimer::timeout);
          cr.changeColor();
       }
    }();
 
-   changeTimer->start(500);
+   timer->start(500);
 
    // draw lines from clicks
    auto ptclick_ro = [&]() -> qtcoro::return_object<> {

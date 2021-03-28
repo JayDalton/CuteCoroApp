@@ -3,8 +3,8 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-ColorRect::ColorRect(QWidget* parent) 
-   : QWidget{ parent }, m_curColor{ 0 }, m_colorList{ 
+ColorRect::ColorRect(QWidget* parent)
+   : QWidget{ parent }, m_curColor{ 0 }, m_colorList{
       {"#111111", "#113311",
       "#111133", "#331111",
       "#333311", "#331133",
@@ -12,7 +12,7 @@ ColorRect::ColorRect(QWidget* parent)
       "#111166", "#663311",
       "#661133", "#336611",
       "#331166", "#113366"} }
-   
+
 {
 }
 
@@ -38,7 +38,7 @@ void ColorRect::mousePressEvent(QMouseEvent* e)
 
 void ColorRect::paintEvent(QPaintEvent*)
 {
-   if (m_line) 
+   if (m_line)
    {
       QPainter painter(this);
       painter.setPen(QPen{ QColor{"yellow"} });

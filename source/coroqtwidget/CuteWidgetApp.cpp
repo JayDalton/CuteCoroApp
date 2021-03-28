@@ -1,7 +1,10 @@
 #include "CuteWidgetApp.h"
 
-CuteWidgetApp::CuteWidgetApp(QWidget *parent)
-    : QMainWindow(parent)
+#include "ui_CuteWidgetApp.h"
+
+CuteWidgetApp::CuteWidgetApp(QWidget* parent)
+   : QMainWindow(parent)
 {
-    ui.setupUi(this);
+   m_ui = std::make_unique<Ui::CuteWidgetAppClass>();
+   m_ui->setupUi(this);
 }
