@@ -6,8 +6,8 @@
 
 #include "meta.h"
 
-namespace qtcoro {
-
+namespace qtcoro 
+{
    template<typename T=void>
    struct return_object
    {
@@ -73,7 +73,8 @@ namespace qtcoro {
       using Result = std::tuple<Args...>;
       auto operator() (QMetaObject::Connection& signal_conn, Result& result, std::coroutine_handle<>& coro_handle) 
       {
-         return [&signal_conn, &coro_handle, &result] (Args... a) {
+         return [&signal_conn, &coro_handle, &result] (Args... a) 
+         {
             // all our awaits are one-shot, so we immediately disconnect
             QObject::disconnect(signal_conn);
             // put the result where the awaiter can supply it from await_resume()
@@ -105,7 +106,8 @@ namespace qtcoro {
    {
       auto operator() (QMetaObject::Connection& signal_conn, std::coroutine_handle<>& coro_handle) 
       {
-         return [&signal_conn, &coro_handle]() {
+         return [&signal_conn, &coro_handle]() 
+         {
             QObject::disconnect(signal_conn);
             coro_handle.resume();
          };
@@ -176,7 +178,8 @@ namespace qtcoro {
          }
 
          template<typename P>
-         void await_suspend(std::coroutine_handle<P> handle) noexcept {
+         void await_suspend(std::coroutine_handle<P> handle) noexcept 
+         {
             // we have now been suspended but are able to do something before
             // returning to caller-or-resumer
             // such as storing the coroutine handle!
@@ -221,19 +224,22 @@ namespace qtcoro {
 
    // produce void or T for small tuples
    template<typename T>
-   struct special_case_tuple {
+   struct special_case_tuple 
+   {
       using type = T;
    };
 
    // just one type
    template<typename T>
-   struct special_case_tuple<std::tuple<T>> {
+   struct special_case_tuple<std::tuple<T>> 
+   {
       using type = T;
    };
 
    // empty list
    template<>
-   struct special_case_tuple<std::tuple<>> {
+   struct special_case_tuple<std::tuple<>> 
+   {
       using type = void;
    };
 
