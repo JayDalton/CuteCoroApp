@@ -33,3 +33,4 @@
 /.vs
 /out/build/x64-Debug
 /Debug
+/RelWithDebInfo

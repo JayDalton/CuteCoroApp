@@ -24,8 +24,6 @@
 int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
-   //CuteWidgetApp w;
-   //w.show();
 
    QCommandLineParser parser;
    parser.addOptions({
@@ -35,34 +33,11 @@ int main(int argc, char *argv[])
    parser.process(QApplication::arguments());
    bool forceConfigEditor = parser.isSet("c");
 
-   // a really simple widget
+   //CuteWidgetApp w;
+   //w.show();
    ColorRect cr;
    cr.setWindowTitle("Color Cycler");
    cr.show();
-
-   //// change widget color every 500ms
-   //QTimer* changeTimer = new QTimer(&app);
-   //QObject::connect(changeTimer, &QTimer::timeout, [&]() { cr.changeColor(); });
-   //changeTimer->start(500);
-
-   //// draw lines from clicks
-   //bool got_first_point{ false };
-   //QPointF first_point;
-
-   //QObject::connect(&cr, &ColorRect::click, [&](QPointF p) 
-   //   {
-   //      if (got_first_point) 
-   //      {
-   //         // draw
-   //         cr.setLine(first_point, p);
-   //         got_first_point = false;
-   //      }
-   //      else {
-   //         first_point = p;
-   //         got_first_point = true;
-   //      }
-   //   }
-   //);
 
    // change widget color every 500ms
    QTimer* changeTimer = new QTimer(&app);

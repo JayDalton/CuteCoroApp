@@ -11,13 +11,6 @@ message(STATUS ${PROJECT_NAME})
 
 enable_testing()
 
-option(UPDATE_ALL_PROJECTS "Update all sources lists" OFF)
-if (${UPDATE_ALL_PROJECTS})
-    message(STATUS "Updating sources lists:")
-    update_target_sources(${CMAKE_SOURCE_DIR}/source)
-endif()
-
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
