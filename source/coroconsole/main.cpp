@@ -229,6 +229,25 @@ struct MyGenerator {
       return coro.promise().current_value;
    }
 
+   bool next() {
+      coro.resume();
+      return not coro.done();
+   }
+
+   T getValue() {
+      return coro.promise().current_value;
+   }
+
+   //auto begin()
+   //{
+   //   return {};
+   //}
+
+   //auto end()
+   //{
+   //   return {};
+   //}
+
    struct promise_type {
       promise_type() {                                           // (2)
          std::cout << "            promise_type::promise_type" << '\n';
@@ -293,7 +312,7 @@ struct task
       T await_resume() { 
          if (coro.promise().result.index() == 2)
          {
-            std::rethrow_exception(std::get<2>(coro.promise().result);
+            std::rethrow_exception(std::get<2>(coro.promise().result));
          }
          return std::get<1>(coro.promise().result); 
       }
@@ -307,132 +326,54 @@ MyLazyFuture<int> createFuture() {                                         // (2
    co_return 2021;
 }
 
-void setupXMLContent()
+MyGenerator<int> getNext(int start = 10, int step = 10) 
 {
-   QByteArray result;
-   QXmlStreamWriter writer(&result);
-
-   //writer.setAutoFormatting(true);
-   //writer.setAutoFormattingIndent(+1); // +: spaces | -: tabs
-   //writer.writeStartDocument();// '<?xml version="1.0" encoding="UTF-8"?>'
-
-   //writer.writeStartElement("http://plansee-net.com/PP", "MT_PD_SEND_CONFIRMATION_req");
-   //writer.writeTextElement("Sub_system", "3500_PCAM");
-   //writer.writeStartElement("Feedback");
-
-   //writer.writeTextElement("Order_Number", "");
-   //writer.writeTextElement("Operation_Number", "");
-   //writer.writeTextElement("Sequence", "");
-   //writer.writeTextElement("Process_Feedback", "");
-   //writer.writeTextElement("ID_Card", "");
-   //writer.writeTextElement("Record_Type", "");
-   //writer.writeTextElement("Recording_Date", "");
-   //writer.writeTextElement("Recording_Time", "");
-   //writer.writeTextElement("Workcenter", "");
-
-   //writer.writeEndDocument();
-
-   writer.setAutoFormatting(true);
-   writer.writeStartDocument("1.0", true);
-
-   writer.writeStartElement("toolinv");
-   writer.writeStartElement("machinevalues");
-
-   writer.writeTextElement("magazine", "1");
-   writer.writeTextElement("magazineplace", "14");
-
-   writer.writeStartElement("control");
-
-   writer.writeStartElement("param");
-   writer.writeTextElement("id", "$TC_TPC2");
-   writer.writeTextElement("value", "1867");
-   writer.writeEndElement();
-
-   writer.writeStartElement("param");
-   writer.writeTextElement("id", "$TC_TPC8");
-   writer.writeTextElement("value", "1");
-   writer.writeEndElement();
-
-   writer.writeEndDocument();
-
-   QString stringify(result);
-   qWarning() << stringify;
+   std::cout << "    getNext: start" << '\n';
+   auto value = start;
+   while (true) {                                                 // (11)
+      std::cout << "    getNext: before co_yield" << '\n';
+      co_yield value;                                             // (7)
+      std::cout << "    getNext: after co_yield" << '\n';
+      value += step;
+   }
 }
+
+MyGenerator<uint> getRange(uint begin, uint count)
+{
+   std::cout << "    getRange: start" << '\n';
+   for (auto value{ begin }; value < count; value++)
+   {
+      co_yield value;
+   }
+   co_yield begin + count;
+}
+
+//MyGenerator<int> next_value()
+//{
+//   using namespace std::chrono_literals;
+//   co_await std::chrono::seconds(1 + rand() % 5);
+//   co_return rand();
+//}
 
 int main(int argc, char* argv[])
 {
    std::cout << "Hello World!\n";
 
-   setupXMLContent();
+   //for (auto value : getRange(0, 5))
+   //{
+
+   //}
+
+   auto gen = getNext();
+   ;
+   for (int i = 0; i <= 2; ++i) {
+      auto val = gen.getNextValue();                              // (12)
+      std::cout << "main: " << val << '\n';                       // (14)
+   }
 
    auto fut = createFuture();                                         // (1)
    auto res = fut.get();                                              // (8)
    std::cout << "res: " << res << '\n';
-
-   QVector<std::uint8_t> values{ 13, 54, 123, 32};
-   auto variant = QVariant::fromValue(values);
-
-   if (variant.canConvert<QVector<std::uint8_t>>())
-   {
-      auto vector = variant.value<QVector<std::uint8_t>>();
-      for (const auto value : vector)
-      {
-         std::cout << value << std::endl;
-      }
-   }
-
-   if (variant.canConvert<QVariantList>()) 
-   {
-      QSequentialIterable iterable = variant.value<QSequentialIterable>();
-      // Can use C++11 range-for:
-      for (const QVariant& v : iterable) {
-         qDebug() << v;
-      }
-   }
-
-   std::cout << std::endl;
-
-   std::cout << std::setprecision(10);
-
-   std::cout << "std::numbers::e: " << std::numbers::e << std::endl;
-   std::cout << "std::numbers::log2e: " << std::numbers::log2e << std::endl;
-   std::cout << "std::numbers::log10e: " << std::numbers::log10e << std::endl;
-   std::cout << "std::numbers::pi: " << std::numbers::pi << std::endl;
-   std::cout << "std::numbers::inv_pi: " << std::numbers::inv_pi << std::endl;
-   std::cout << "std::numbers::inv_sqrtpi: " << std::numbers::inv_sqrtpi << std::endl;
-   std::cout << "std::numbers::ln2: " << std::numbers::ln2 << std::endl;
-   std::cout << "std::numbers::sqrt2: " << std::numbers::sqrt2 << std::endl;
-   std::cout << "std::numbers::sqrt3: " << std::numbers::sqrt3 << std::endl;
-   std::cout << "std::numbers::inv_sqrt3: " << std::numbers::inv_sqrt3 << std::endl;
-   std::cout << "std::numbers::egamma: " << std::numbers::egamma << std::endl;
-   std::cout << "std::numbers::phi: " << std::numbers::phi << std::endl;
-
-   std::cout << std::endl;
-
-   std::vector<std::string> strings{ "abc", "xyz", "fdg", "abc", "cool" };
-   std::string s = std::accumulate(strings.begin(), strings.end(), std::string{});
-   std::cout << s << std::endl;
-
-   std::vector<int> numbers{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
-   std::cout << fmt::format("The answer is {} \n", numbers);
-
-   auto results = numbers
-      | std::views::filter([](int n) { return n % 2 == 0; })
-      | std::views::transform([](int n) { return n * 2; })
-      | std::views::reverse
-      | std::views::take(3);
-
-   for (auto v : results)
-   {
-      std::cout << v << " ";
-   }
-
-   std::cout << "\nEnde Program!\n";
-
-   auto arr1 = std::string("C-String Literal");
-   if (arr1.starts_with("hello"))
-   {
-   }
 
    return 0;
 }
