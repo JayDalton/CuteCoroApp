@@ -220,12 +220,12 @@ namespace qtcoro
       awaitable_signal(obj_t* src, Signal method)
          : awaitable_signal_base<awaitable_signal, Result>(src, method, m_coro_handle) {}
 
-      struct awaiter {
+      struct awaiter 
+      {
          awaiter(awaitable_signal* awaitable) : awaitable_(awaitable) {}
 
-         bool await_ready() const noexcept {
-            return false;  // we are waiting for the signal to arrive
-         }
+         // we are waiting for the signal to arrive
+         bool await_ready() const noexcept { return false; }
 
          template<typename P>
          void await_suspend(std::coroutine_handle<P> handle) noexcept 
@@ -248,7 +248,6 @@ namespace qtcoro
 
       private:
          awaitable_signal* awaitable_;
-
       };
 
       awaiter operator co_await () { return awaiter{ this }; }
