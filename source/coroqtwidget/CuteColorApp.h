@@ -1,10 +1,7 @@
 #pragma once
 
-#include <optional>
-#include <string>
-
-#include <QWidget>
-#include <QLine>
+#include "common.h"
+#include "commoncute.h"
 
 class ColorRect : public QWidget
 {

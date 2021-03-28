@@ -1,6 +1,8 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
+#include "common.h"
+#include "commoncute.h"
+
 #include "ui_CuteWidgetApp.h"
 
 class CuteWidgetApp : public QMainWindow
@@ -8,7 +10,7 @@ class CuteWidgetApp : public QMainWindow
     Q_OBJECT
 
 public:
-    CuteWidgetApp(QWidget *parent = Q_NULLPTR);
+    CuteWidgetApp(QWidget *parent = nullptr);
 
 private:
     Ui::CuteWidgetAppClass ui;

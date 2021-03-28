@@ -1,25 +1,9 @@
 #include "common.h"
+#include "commoncute.h"
+#include "commoncoro.h"
 
+#include "CuteColorApp.h"
 #include "CuteWidgetApp.h"
-
-#include "QtCoro.h"
-
-#include <iomanip>
-#include <iostream>
-#include <numbers>
-
-#include <QtWidgets/QApplication>
-
-#include <optional>
-#include <string>
-#include <QWidget>
-#include <QLine>
-#include <QTimer>
-#include <QCommandLineParser>
-
-#include <sqlite3.h>
-
-#include "ColorRect.h"
 
 int main(int argc, char *argv[])
 {

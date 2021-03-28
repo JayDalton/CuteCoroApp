@@ -1,4 +1,4 @@
-#include "colorrect.h"
+#include "CuteColorApp.h"
 
 #include <QMouseEvent>
 #include <QPainter>
