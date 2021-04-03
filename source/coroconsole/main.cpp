@@ -345,7 +345,7 @@ MyGenerator<uint> getRange(uint begin, uint count)
    {
       co_yield value;
    }
-   co_yield begin + count;
+   //co_yield begin + count;
 }
 
 //MyGenerator<int> next_value()
@@ -357,6 +357,8 @@ MyGenerator<uint> getRange(uint begin, uint count)
 
 int main(int argc, char* argv[])
 {
+   QApplication app(argc, argv);
+
    std::cout << "Hello World!\n";
 
    //for (auto value : getRange(0, 5))
@@ -375,5 +377,5 @@ int main(int argc, char* argv[])
    auto res = fut.get();                                              // (8)
    std::cout << "res: " << res << '\n';
 
-   return 0;
+   return app.exec();
 }

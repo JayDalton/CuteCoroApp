@@ -1,60 +1,46 @@
 {
   "environments": [
-    {
-      "Generator": "Visual Studio 16 2019",
-      "BuildDir": "C:\\Temp\\CMakeBuilds\\${workspaceHash}",
-      "BuildCommandArguments": "/maxcpucount /p:Platform=x86 /p:PreferredToolArchitecture=x64",
-      "CMakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe"
-    }
+   {
+      "VcpkgDir": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake",
+      "BuildDir": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build",
+      "InstallDir": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install",
+      "BuildCommandArguments": "/maxcpucount /p:Platform=x86 /p:PreferredToolArchitecture=x64"
+   }
   ],
   "configurations": [
-    {
-      "addressSanitizerEnabled": true,
-      "cmakeExecutable": "${env.CMakeExecutable}",
+   {
       "name": "CuteCoro Debug",
-      "generator": "${env.Generator}",
       "configurationType": "Debug",
+      "generator": "Visual Studio 16 2019",
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.BuildDir}\\${name}",
+      "installRoot": "${env.InstallDir}\\${name}",
       "buildCommandArgs": "${env.BuildCommandArguments}",
       "cmakeCommandArgs": "",
       "ctestCommandArgs": "",
       "variables": [
-        {
-          "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake",
-          "type": "STRING"
-        },
-        {
-          "name": "CMAKE_SYSTEM_VERSION",
-          "value": "10.0.17763.0",
-          "type": "INTERNAL"
-        }
+         {
+            "name": "CMAKE_TOOLCHAIN_FILE",
+            "value": "${env.VcpkgDir}"
+         }
       ]
-    },
-    {
-      "addressSanitizerEnabled": true,
-      "cmakeExecutable": "${env.CMakeExecutable}",
+   },
+   {
       "name": "CuteCoro Release",
-      "generator": "${env.Generator}",
       "configurationType": "RelWithDebInfo",
+      "generator": "Visual Studio 16 2019",
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.BuildDir}\\${name}",
+      "installRoot": "${env.InstallDir}\\${name}",
       "buildCommandArgs": "${env.BuildCommandArguments}",
       "cmakeCommandArgs": "",
       "ctestCommandArgs": "",
       "variables": [
-        {
-          "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "C:\\Packages\\scripts\\buildsystems\\vcpkg.cmake",
-          "type": "STRING"
-        },
-        {
-          "name": "CMAKE_SYSTEM_VERSION",
-          "value": "10.0.17763.0",
-          "type": "INTERNAL"
-        }
+         {
+            "name": "CMAKE_TOOLCHAIN_FILE",
+            "value": "${env.VcpkgDir}"
+         }
       ]
-    }
+   }
   ]
 }

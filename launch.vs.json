@@ -5,42 +5,30 @@
       {
          "type": "mixed",
          "project": "CMakeLists.txt",
-         "projectTarget": "CuteConsole.exe (C:\\Repository\\CuteCoroApp\\Debug\\CuteConsole.exe)",
+         "projectTarget": "CuteConsole.exe",
          "name": "Console Debug",
-         "args": [ "-c", "-x=value" ],
-         "env": {
-            "Path": "c:\\Qt\\5.15.2\\msvc2019\\bin;${env.PATH}"
-         }
+         "args": [ "-c", "-x=value" ]
       },
       {
          "type": "mixed",
          "project": "CMakeLists.txt",
-         "projectTarget": "CuteConsole.exe (C:\\Repository\\CuteCoroApp\\RelWithDebInfo\\CuteConsole.exe)",
+         "projectTarget": "CuteConsole.exe",
          "name": "Console Release",
-         "args": [ "-c", "-x=value" ],
-         "env": {
-            "Path": "c:\\Qt\\5.15.2\\msvc2019\\bin;${env.PATH}"
-         }
+         "args": [ "-c", "-x=value" ]
       },
       {
          "type": "mixed",
          "project": "CMakeLists.txt",
-         "projectTarget": "CuteWidgetApp.exe (C:\\Repository\\CuteCoroApp\\Debug\\CuteWidgetApp.exe)",
+         "projectTarget": "CuteWidgetApp.exe",
          "name": "WidgetApp Debug",
-         "args": [ "-c", "-x=value" ],
-         "env": {
-            "Path": "c:\\Qt\\5.15.2\\msvc2019\\bin;${env.PATH}"
-         }
+         "args": [ "-c", "-x=value" ]
       },
       {
          "type": "default",
          "project": "CMakeLists.txt",
-         "projectTarget": "CuteWidgetApp.exe (C:\\Repository\\CuteCoroApp\\RelWithDebInfo\\CuteWidgetApp.exe)",
+         "projectTarget": "CuteWidgetApp.exe",
          "name": "WidgetApp Release",
-         "args": [ "-c" ],
-         "env": {
-            "Path": "c:\\Qt\\5.15.2\\msvc2019\\bin;${env.PATH}"
-         }
+         "args": [ "-c" ]
       }
    ]
 }
