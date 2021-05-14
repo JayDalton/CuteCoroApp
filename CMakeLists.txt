@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set(Qt5_DIR "c:/Qt/Qt5.12.10/5.12.10/msvc2017/lib/cmake/Qt5" CACHE PATH "Initial cache" FORCE)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -36,3 +37,4 @@ message(STATUS "Unity builds are ${CMAKE_UNITY_BUILD}")
 add_subdirectory(source/common)
 add_subdirectory(source/coroconsole)
 add_subdirectory(source/coroqtwidget)
+add_subdirectory(source/normalwidget)
