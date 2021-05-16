@@ -26,7 +26,21 @@ signals:
    void inputCaptured(QueueData data);
 
 private:
+   //template <typename NF>
+   //void notifyListeners(const NF& notifyFunction)
+   //{
+   //   QMetaObject::invokeMethod(this, [=]() { notifyFunction(); }, Qt::QueuedConnection);
+   //}
+
+   //template <typename CF>
+   //void call(const CF& callFunction)
+   //{
+   //   QMetaObject::invokeMethod(m_threadContext, [=]() { callFunction(); });
+   //}
+
+private:
    /// thread where the work happens
+   QObject* m_threadContext{ nullptr };
    QThread* m_thread{ nullptr };
 
    /// worker class, used in Thread

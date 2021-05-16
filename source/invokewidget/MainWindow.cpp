@@ -1,6 +1,10 @@
-#include "MainWindow.h"
+
+#include <vector>
 
 #include <QtWidgets>
+#include <QListWidget>
+
+#include "MainWindow.h"
 
 MainWindow::MainWindow()
 {
