@@ -4,12 +4,16 @@
 #include <QMainWindow>
 
 #include <forward_list>
-#include "Calculator.h"
 
-/**
- * @brief The MainWindow class lives in the main-thread and handles input capturing
- * and visualization for captured and processed values in different ListViews
- */
+struct QueueData final
+{
+   signed m_value{ 0 };
+   QString toString() const
+   {
+      return QString::number(m_value);
+   }
+};
+
 class MainWindow final : public QMainWindow
 {
    Q_OBJECT
@@ -21,9 +25,6 @@ public:
 protected:
    void keyPressEvent(QKeyEvent *event) override;
    void paintEvent(QPaintEvent* event) override;
-
-signals:
-   void inputCaptured(QueueData data);
 
 private:
    template <typename CF>

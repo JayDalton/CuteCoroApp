@@ -1,10 +1,6 @@
-
-#include <vector>
+#include "MainWindow.h"
 
 #include <QtWidgets>
-#include <QListWidget>
-
-#include "MainWindow.h"
 
 MainWindow::MainWindow()
 {
@@ -47,8 +43,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
    callThread([=]() {
 
       /// add captured input to FIFO 1
+      /// do heavy time consuming processing...
       const auto value{ key * 2 };
-      //QThread::msleep(1'000);
+      QThread::msleep(1'000);
 
       callBack([=]() {
 
