@@ -4,7 +4,8 @@
 #include <QPainter>
 
 ColorRect::ColorRect(QWidget* parent)
-   : QWidget{ parent }, m_curColor{ 0 }, m_colorList{
+   : QWidget{ parent }, m_curColor{ 0 }
+   , m_colorList{
       {"#111111", "#113311",
       "#111133", "#331111",
       "#333311", "#331133",
