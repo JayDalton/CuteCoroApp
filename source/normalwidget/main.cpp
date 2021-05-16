@@ -1,8 +1,10 @@
 #include "ContextApp.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    ContextApp app(argc, argv);
+   ContextApp app(argc, argv);
 
-    return app.exec();
+   qRegisterMetaType<QueueData>();
+
+   return app.exec();
 }

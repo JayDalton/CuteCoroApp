@@ -1,12 +1,10 @@
 #pragma once
 
-#include <forward_list>
-
 #include <QDebug>
 #include <QMainWindow>
 
+#include <forward_list>
 #include "Calculator.h"
-//#include "QueueData.h"
 
 /**
  * @brief The MainWindow class lives in the main-thread and handles input capturing

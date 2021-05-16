@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDebug>
+#include <QObject>
 
 struct QueueData final
 {
@@ -10,6 +11,7 @@ struct QueueData final
       return QString::number(m_value);
    }
 };
+Q_DECLARE_METATYPE(QueueData) 
 
 /**
  * @brief The Calculator class is a worker class that define the work

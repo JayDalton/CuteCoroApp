@@ -9,7 +9,7 @@
 MainWindow::MainWindow()
 {
    setMinimumSize(QSize(400, 300));
-   setWindowTitle(QApplication::applicationName());   
+   setWindowTitle(QApplication::applicationName());
 
    /// instantiate worker without parent
    /// for moving to other thread
@@ -56,19 +56,15 @@ MainWindow::~MainWindow()
    /// stop adding new items/signals
    m_thread->quit();
 
-   /// wait for finishing remaining/
-   /// containing signals
-   m_thread->wait();
-
    /// if closing is time critical
    /// wait a while and quit manually
-   /// if (!m_thread->wait(2000))
-   /// {
-   ///     /// Thread didn't exit in time, terminate it!
-   ///     /// this is dangerous for possible data loss
-   ///     m_thread->terminate();
-   ///     m_thread->wait();
-   /// }
+   if (!m_thread->wait(2'000))
+   {
+      /// Thread didn't exit in time, terminate it!
+      /// this is dangerous for possible data loss
+      m_thread->terminate();
+      m_thread->wait();
+   }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -81,7 +77,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
    }
 
    /// add captured input to FIFO 1
-   emit inputCaptured(QueueData(event->key()));
+   emit inputCaptured(QueueData{ event->key() });
 }
 
 void MainWindow::paintEvent(QPaintEvent* event)
@@ -96,22 +92,19 @@ void MainWindow::paintEvent(QPaintEvent* event)
    /// define some attributes
    auto flags {Qt::AlignLeft};
    QRectF window{ rect() };
-   QRectF textbox{};
+   QRectF logger{};
 
    /// draw background and first line
    display.fillRect(window, Qt::black);
-   display.drawText(window, flags, "Inputs:", &textbox);
+   display.drawText(window, flags, "Inputs:", &logger);
 
-   /// return if nothing else to draw
-   if (m_cache.empty()) { return; }
-
-   for (const auto& data : m_cache)
+   for (const QueueData& data : m_cache)
    {
       /// calculate available drawable area
-      window = QRectF{ textbox.bottomLeft(), window.bottomRight() };
+      window = QRectF{ logger.bottomLeft(), window.bottomRight() };
 
       /// draw value in new line
-      display.drawText(window, flags, data.toString(), &textbox);
+      display.drawText(window, flags, data.toString(), &logger);
    }
 }
 
