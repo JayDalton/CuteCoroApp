@@ -26,25 +26,26 @@ signals:
    void inputCaptured(QueueData data);
 
 private:
-   //template <typename NF>
-   //void notifyListeners(const NF& notifyFunction)
-   //{
-   //   QMetaObject::invokeMethod(this, [=]() { notifyFunction(); }, Qt::QueuedConnection);
-   //}
+   template <typename CF>
+   void callThread(const CF& callFunction)
+   {
+      QMetaObject::invokeMethod(m_calculator, 
+         [=]() { callFunction(); },
+         Qt::QueuedConnection);
+   }
 
-   //template <typename CF>
-   //void call(const CF& callFunction)
-   //{
-   //   QMetaObject::invokeMethod(m_threadContext, [=]() { callFunction(); });
-   //}
+   template <typename NF>
+   void callBack(const NF& notifyFunction)
+   {
+      QMetaObject::invokeMethod(this, 
+         [=]() { notifyFunction(); }, 
+         Qt::QueuedConnection);
+   }
 
 private:
    /// thread where the work happens
-   QObject* m_threadContext{ nullptr };
+   QObject* m_calculator{ nullptr };
    QThread* m_thread{ nullptr };
-
-   /// worker class, used in Thread
-   Calculator* m_calculator{ nullptr };
 
    static constexpr std::size_t m_size{ 42 };
    std::list<QueueData> m_cache;
