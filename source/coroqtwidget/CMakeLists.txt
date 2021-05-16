@@ -17,9 +17,5 @@ target_sources(${PROJECT_NAME} PRIVATE
 "commoncoro.h"
 "CuteColorApp.cpp"
 "CuteColorApp.h"
-"CuteWidgetApp.cpp"
-"CuteWidgetApp.h"
-"CuteWidgetApp.qrc"
-"CuteWidgetApp.ui"
 "main.cpp"
 )

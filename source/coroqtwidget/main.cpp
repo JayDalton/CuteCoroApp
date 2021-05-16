@@ -3,7 +3,6 @@
 #include "commoncoro.h"
 
 #include "CuteColorApp.h"
-#include "CuteWidgetApp.h"
 
 int main(int argc, char *argv[])
 {
