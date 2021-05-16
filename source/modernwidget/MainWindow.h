@@ -22,6 +22,8 @@ public:
    MainWindow();
    ~MainWindow() override;
 
+   void changeColor();
+
 protected:
    void keyPressEvent(QKeyEvent *event) override;
    void paintEvent(QPaintEvent* event) override;
@@ -47,6 +49,9 @@ private:
    /// thread where the work happens
    QObject* m_calculator{ nullptr };
    QThread* m_thread{ nullptr };
+
+   uint m_colorIndex{ 0 };
+   Qt::GlobalColor m_color{ Qt::black };
 
    static constexpr std::size_t m_size{ 42 };
    std::list<QueueData> m_cache;

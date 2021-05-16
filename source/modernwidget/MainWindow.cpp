@@ -31,6 +31,28 @@ MainWindow::~MainWindow()
    }
 }
 
+void MainWindow::changeColor()
+{
+   std::vector<Qt::GlobalColor> colors{
+      Qt::black,
+      Qt::darkRed,
+      Qt::darkGreen,
+      Qt::darkBlue,
+      Qt::darkCyan,
+      Qt::darkMagenta,
+      Qt::darkYellow
+   };
+   
+   if (m_colorIndex++; colors.size() <= m_colorIndex)
+   {
+      m_colorIndex = 0;
+   }
+
+   m_color = colors.at(m_colorIndex);
+
+   update();
+}
+
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
    const auto key{ event->key() };
@@ -76,7 +98,7 @@ void MainWindow::paintEvent(QPaintEvent* event)
    QRectF logger{};
 
    /// draw background and first line
-   display.fillRect(window, Qt::black);
+   display.fillRect(window, m_color);
    display.drawText(window, flags, "Inputs:", &logger);
 
    for (const QueueData& data : m_cache)

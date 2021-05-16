@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QApplication>
+#include <QTimer>
 
 #include "MainWindow.h"
 
@@ -12,5 +13,6 @@ public:
 
 private:
    MainWindow m_window;
+   QTimer m_timer;
 };
 
