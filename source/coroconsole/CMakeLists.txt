@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 project(CuteConsole CXX)
 message(STATUS ${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} WIN32)
+add_executable(${PROJECT_NAME})
 
 find_package(fmt CONFIG REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
