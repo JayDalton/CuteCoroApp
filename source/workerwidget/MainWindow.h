@@ -5,14 +5,7 @@
 
 #include <forward_list>
 
-struct QueueData final
-{
-   signed m_value{ 0 };
-   QString toString() const
-   {
-      return QString::number(m_value);
-   }
-};
+#include "Calculator.h"
 
 class MainWindow final : public QMainWindow
 {

@@ -2,11 +2,11 @@
 
 #include <QThread>
 
-Calculator::Calculator(QObject* parent)
-   : QObject(parent)
-{
-
-}
+//Calculator::Calculator(QObject* parent)
+//   : QObject(parent)
+//{
+//
+//}
 
 void Calculator::calculateData(QueueData data)
 {
