@@ -12,6 +12,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Widgets)
 
 target_sources(${PROJECT_NAME} PRIVATE
+"Calculator.cpp"
+"Calculator.h"
 "ContextApp.cpp"
 "ContextApp.h"
 "main.cpp"
