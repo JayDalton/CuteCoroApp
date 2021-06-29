@@ -37,6 +37,18 @@ void ColorRect::mousePressEvent(QMouseEvent* e)
    emit click(e->windowPos());
 }
 
+void ColorRect::keyPressEvent(QKeyEvent* event)
+{
+   const auto key{ event->key() };
+
+   if (key == Qt::Key_Escape)
+   {
+      return QApplication::quit();
+   }
+
+   QWidget::keyPressEvent(event);
+}
+
 void ColorRect::paintEvent(QPaintEvent*)
 {
    if (m_line)
