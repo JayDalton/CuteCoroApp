@@ -10,7 +10,7 @@ Calculator::Calculator()
 
 Calculator::~Calculator()
 {
-   QMetaObject::invokeMethod(this, "cleanup");
+   QMetaObject::invokeMethod(this, &Calculator::cleanup);
    m_thread->wait();
 }
 
