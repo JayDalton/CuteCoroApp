@@ -7,28 +7,22 @@ MainWindow::MainWindow()
    setMinimumSize(QSize(400, 300));
    setWindowTitle(QApplication::applicationName());
 
-   /// start other thread
-   m_thread = new QThread();
-   m_calculator = new QObject();
-   m_calculator->moveToThread(m_thread);
-   m_thread->start();
-}
+   connect(this, &MainWindow::inputCaptured,
+      &m_calculator, &Calculator::calculateData,
+      Qt::QueuedConnection);
 
-MainWindow::~MainWindow()
-{
-   /// quit thread-eventloop
-   /// stop adding new items/signals
-   m_thread->quit();
-
-   /// if closing is time critical
-   /// wait a while and quit manually
-   if (!m_thread->wait(2'000))
+   auto AppendValue = [&](auto data)
    {
-      /// Thread didn't exit in time, terminate it!
-      /// this is dangerous for possible data loss
-      m_thread->terminate();
-      m_thread->wait();
-   }
+      m_cache.push_front(data);
+      if (m_size < m_cache.size())
+      {
+         m_cache.resize(m_size);
+      }
+      update();
+   };
+
+   connect(&m_calculator, &Calculator::dataCalculated, 
+      this, AppendValue, Qt::QueuedConnection);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -40,25 +34,8 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
       return QApplication::quit();
    }
 
-   callThread([=]() {
-
-      /// add captured input to FIFO 1
-      /// do heavy time consuming processing...
-      const auto value{ key * 2 };
-      QThread::msleep(1'000);
-
-      callBack([=]() {
-
-         // append value to cache
-         m_cache.push_front(QueueData{ value });
-         if (m_size < m_cache.size())
-         {
-            m_cache.resize(m_size);
-         }
-
-         update(); // repaint
-      });
-   });
+   /// add captured input to FIFO 1
+   emit inputCaptured(QueueData{ event->key() });
 }
 
 void MainWindow::paintEvent(QPaintEvent* event)

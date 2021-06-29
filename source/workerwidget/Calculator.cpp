@@ -1,12 +1,18 @@
 #include "Calculator.h"
 
-#include <QThread>
+Calculator::Calculator()
+{
+   // create timer, socket, etc.
+   m_thread.reset(new QThread); // no parent !!!
+   moveToThread(m_thread.get());
+   m_thread->start();
+}
 
-//Calculator::Calculator(QObject* parent)
-//   : QObject(parent)
-//{
-//
-//}
+Calculator::~Calculator()
+{
+   QMetaObject::invokeMethod(this, "cleanup");
+   m_thread->wait();
+}
 
 void Calculator::calculateData(QueueData data)
 {
@@ -19,4 +25,10 @@ void Calculator::calculateData(QueueData data)
    QThread::msleep(1'000);
 
    emit dataCalculated(QueueData{ value });
+}
+
+void Calculator::cleanup()
+{
+   // delete timer, socket...
+   m_thread->quit();
 }
