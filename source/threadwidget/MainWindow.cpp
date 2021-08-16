@@ -15,6 +15,12 @@ MainWindow::MainWindow()
 
       while (!stop.stop_requested())
       {
+         // between 1 and 1000ms per our distribution
+         //std::chrono::milliseconds duration(dist(eng));
+         //std::this_thread::sleep_for(duration);
+         using namespace std::chrono_literals;
+         std::this_thread::sleep_for(500ms);
+
          std::unique_lock lock(m_mutexExport);
          if (!cv.wait(lock, stop, [&] { return !m_export.empty(); }))
          {
@@ -22,14 +28,14 @@ MainWindow::MainWindow()
             return;
          }
 
-         // between 1 and 1000ms per our distribution
-         //std::chrono::milliseconds duration(dist(eng));
-         //std::this_thread::sleep_for(duration);
-
-         std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
          std::scoped_lock guard(m_mutexImport);
-         m_import.push_front(m_export.front());
+         const auto data{ m_export.front() };
+         m_import.push_front({
+            data.m_value * 2,
+            data.m_exportID,
+            std::this_thread::get_id()
+         });
+
          if (m_size < m_import.size())
          {
             m_import.resize(m_size);
@@ -50,7 +56,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
    }
 
    std::scoped_lock lock(m_mutexExport);
-   m_export.push_back(QueueData{ event->key() });
+   m_export.push_back(QueueData{ 
+      event->key(), std::this_thread::get_id()
+   });
    cv.notify_one();
 }
 
@@ -76,6 +84,6 @@ void MainWindow::paintEvent(QPaintEvent* event)
       window = QRectF{ logger.bottomLeft(), window.bottomRight() };
 
       /// draw value in new line
-      display.drawText(window, flags, QString::number(data.m_value), &logger);
+      display.drawText(window, flags, data.toString(), &logger);
    }
 }

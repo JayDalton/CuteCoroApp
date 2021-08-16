@@ -1,12 +1,14 @@
 #pragma once
 
 #include <QDebug>
+#include <QString>
 #include <QMainWindow>
 
 #include <condition_variable>
 #include <chrono>
 #include <deque>
 #include <iostream>
+#include <sstream>
 #include <forward_list>
 #include <mutex>
 #include <optional>
@@ -15,6 +17,7 @@
 #include <thread>
 #include <vector>
 #include <random>
+#include <format>
 
 
 //#include "Calculator.h"
@@ -22,22 +25,26 @@
 struct QueueData final
 {
    signed m_value{ 0 };
-   std::string toString() const
+   std::thread::id m_exportID;
+   std::thread::id m_importID;
+
+   friend std::ostream& operator<<(std::ostream& out, const QueueData& data)
    {
-      return std::to_string(m_value);
-   }
-};
-
-struct Calculator
-{
-   Calculator() {}
-
-   void calculateData(QueueData data)
-   {
-
+      out << std::to_string(data.m_value);
+      out << ": Export " << data.m_exportID;
+      out << ": Import " << data.m_importID;
+      return out;
    }
 
-private:
+   QString toString() const
+   {
+      std::ostringstream stream;
+      stream << std::to_string(m_value);
+      stream << ": Export " << m_exportID;
+      stream << ": Import " << m_importID;
+      return QString::fromStdString(stream.str());
+      //return std::format("", m_value, m_exportID, m_importID);
+   }
 };
 
 template <typename T>
