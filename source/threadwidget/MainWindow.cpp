@@ -10,57 +10,57 @@ MainWindow::MainWindow()
    /// instantiate worker without parent
    /// for moving to other thread
    m_calculator = new Calculator();
-   m_thread = new QThread();
 
    /// FIFO 1 - queued connections
-   /// enable cross-thread communication via signals and slots
-   /// because the worker will be on another thread, Qt::AutoConnection changes to
-   /// Qt::QueuedConnection without explicit setting and could be omitted
-   /// -> signals data to other thread
-   connect(this, &MainWindow::inputCaptured, 
-      m_calculator, &Calculator::calculateData, 
+   connect(this, &MainWindow::inputCaptured, this, [&](auto data) 
+      {
+
+      },
       Qt::QueuedConnection);
 
    /// FIFO 2 - queued connections
-   /// enable cross-thread communication via signals and slots
-   /// because the worker will be on another thread, Qt::AutoConnection changes to
-   /// Qt::QueuedConnection without explicit setting and could be omitted
-   /// -> add processed value to local cache and call repaint
-   connect(m_calculator, &Calculator::dataCalculated, this, [this](auto data)
+   //connect(m_calculator, &Calculator::dataCalculated, this, [this](auto data)
+   //{
+   //   m_cache.push_front(data);
+   //   if (m_size < m_cache.size())
+   //   {
+   //      m_cache.resize(m_size);
+   //   }
+   //   update();
+   //}, Qt::QueuedConnection);
+
+   m_threads.push_back(std::jthread([&] {
+       
+      }));
+
+}
+
+void MainWindow::waitForData(std::stop_token stop)
+{
+   std::unique_lock lock(m_mutex);
+   if (!vc.wait(lock, stop, [&] { return !m_import.empty(); } ))
    {
-      m_cache.push_front(data);
-      if (m_size < m_cache.size())
-      {
-         m_cache.resize(m_size);
-      }
-      update();
-   }, Qt::QueuedConnection);
+      // op was canceled
+   }
 
-   /// ensure worker will deleted if thread ends
-   connect(m_thread, &QThread::finished, m_calculator, &QObject::deleteLater);
+   auto res = m_import.front();
+   m_import.pop_front();
+   // return res;
+}
 
-   /// move calculator-worker to other thread
-   m_calculator->moveToThread(m_thread);
 
-   /// start other thread
-   m_thread->start();
+void thread_func(std::stop_token st, std::string arg1, int arg2)
+{
+   while (!st.stop_requested())
+   {
+      //do_stuff(arg1, arg2);
+   }
 }
 
 MainWindow::~MainWindow()
 {
-   /// quit thread-eventloop
-   /// stop adding new items/signals
-   m_thread->quit();
-
-   /// if closing is time critical
-   /// wait a while and quit manually
-   if (!m_thread->wait(2'000))
-   {
-      /// Thread didn't exit in time, terminate it!
-      /// this is dangerous for possible data loss
-      m_thread->terminate();
-      m_thread->wait();
-   }
+   std::jthread t(thread_func, "", 42);
+   //do_stuff();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -71,6 +71,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
       /// start quitting application
       return QApplication::quit();
    }
+
+   std::unique_lock lock(m_mutex);
+
 
    /// add captured input to FIFO 1
    emit inputCaptured(QueueData{ event->key() });
@@ -94,14 +97,12 @@ void MainWindow::paintEvent(QPaintEvent* event)
    display.fillRect(window, Qt::black);
    display.drawText(window, flags, "Inputs:", &logger);
 
-   for (const QueueData& data : m_cache)
+   for (const QueueData& data : m_import)
    {
       /// calculate available drawable area
       window = QRectF{ logger.bottomLeft(), window.bottomRight() };
 
       /// draw value in new line
-      display.drawText(window, flags, data.toString(), &logger);
+      display.drawText(window, flags, QString::number(data.m_value), &logger);
    }
 }
-
-
