@@ -4,13 +4,18 @@
 #include <QMainWindow>
 
 #include <condition_variable>
+#include <chrono>
 #include <deque>
+#include <iostream>
 #include <forward_list>
 #include <mutex>
 #include <optional>
 #include <string>
+#include <shared_mutex>
 #include <thread>
 #include <vector>
+#include <random>
+
 
 //#include "Calculator.h"
 
@@ -63,8 +68,7 @@ public:
 
    T pop()
    {
-      auto old_head = head.load();
-      while (old_head)
+      while (auto old_head = head.load())
       {
          if (head.compare_exchange_strong(old_head, old_head->next))
          {
@@ -82,29 +86,22 @@ class MainWindow final : public QMainWindow
 
 public:
    MainWindow();
-   ~MainWindow() override;
+   ~MainWindow() override = default;
 
 protected:
    void keyPressEvent(QKeyEvent *event) override;
    void paintEvent(QPaintEvent* event) override;
 
-signals:
-   void inputCaptured(QueueData data);
-
 private:
-   void waitForData(std::stop_token token);
-
-private:
-   /// worker class, used in Thread
-   Calculator* m_calculator{ nullptr };
-
    static constexpr std::size_t m_size{ 42 };
-   //std::list<QueueData> m_cache;
 
-   std::mutex m_mutex;
+   std::mutex m_mutexExport;
+   std::mutex m_mutexImport;
+
    std::deque<QueueData> m_export;
    std::deque<QueueData> m_import;
-   std::condition_variable_any vc;
+
+   std::condition_variable_any cv;
 
    std::vector<std::jthread> m_threads;
 };
