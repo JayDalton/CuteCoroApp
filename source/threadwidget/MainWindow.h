@@ -34,46 +34,6 @@ struct QueueData final
    }
 };
 
-template<typename T>
-class Queue 
-{
-   std::deque<T> m_queue;
-   std::mutex m_mutex;
-   std::condition_variable_any m_cv;
-   std::size_t m_size{ 42 };
-
-public:
-   Queue() = default;
-   Queue(const Queue<T>&) = delete;
-   Queue& operator=(const Queue<T>&) = delete;
-
-   void push_back(const T& item) 
-   {
-      std::scoped_lock lock(m_mutex);
-      m_queue.push_back(item);
-      if (m_size < m_queue.size())
-      {
-         m_queue.resize(m_size);
-      }
-      m_cv.notify_one();
-   }
-
-   std::optional<T> pop_front(std::stop_token stop) 
-   {
-      std::unique_lock lock(m_mutex);
-      if (!m_cv.wait(lock, stop, [&] { return !m_queue.empty(); }))
-      {
-         qWarning() << "cancled";
-         return {};
-      }
-
-      const T data{ m_queue.front() };
-      m_queue.pop_front();
-      return data;
-   }
-
-};
-
 class MainWindow final : public QMainWindow
 {
    Q_OBJECT
@@ -94,9 +54,6 @@ private:
 
    std::deque<QueueData> m_exportQueue;
    std::deque<QueueData> m_importQueue;
-
-   Queue<QueueData> m_export;
-   Queue<QueueData> m_import;
 
    std::condition_variable_any cv;
 

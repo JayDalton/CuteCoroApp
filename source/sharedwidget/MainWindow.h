@@ -38,16 +38,16 @@ template<typename T>
 class Queue 
 {
    std::deque<T> m_queue;
-   std::mutex m_mutex;
+   mutable std::mutex m_mutex;
+   const std::size_t m_size{ 42 };
    std::condition_variable_any m_cv;
-   std::size_t m_size{ 42 };
 
 public:
    Queue() = default;
    Queue(const Queue<T>&) = delete;
    Queue& operator=(const Queue<T>&) = delete;
 
-   void push_back(const T& item) 
+   void push(const T& item) 
    {
       std::scoped_lock lock(m_mutex);
       m_queue.push_back(item);
@@ -58,7 +58,13 @@ public:
       m_cv.notify_one();
    }
 
-   std::optional<T> pop_front(std::stop_token stop) 
+   std::vector<T> values() const
+   {
+      std::scoped_lock lock(m_mutex);
+      return { m_queue.cbegin(), m_queue.cend() };
+   }
+
+   std::optional<T> take(std::stop_token stop)
    {
       std::unique_lock lock(m_mutex);
       if (!m_cv.wait(lock, stop, [&] { return !m_queue.empty(); }))
@@ -71,7 +77,6 @@ public:
       m_queue.pop_front();
       return data;
    }
-
 };
 
 class MainWindow final : public QMainWindow
@@ -87,18 +92,8 @@ protected:
    void paintEvent(QPaintEvent* event) override;
 
 private:
-   static constexpr std::size_t m_size{ 42 };
-
-   std::shared_mutex m_mutexExport;
-   std::shared_mutex m_mutexImport;
-
-   std::deque<QueueData> m_exportQueue;
-   std::deque<QueueData> m_importQueue;
-
    Queue<QueueData> m_export;
    Queue<QueueData> m_import;
-
-   std::condition_variable_any cv;
 
    std::vector<std::jthread> m_threads;
 };
