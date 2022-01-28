@@ -5,11 +5,14 @@ message(STATUS ${PROJECT_NAME})
 
 add_executable(${PROJECT_NAME})
 
-find_package(fmt CONFIG REQUIRED)
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Widgets)
+#find_package(fmt CONFIG REQUIRED)
+#find_package(Qt5 COMPONENTS Widgets REQUIRED)
+
+#target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
+#target_link_libraries(${PROJECT_NAME} PUBLIC Qt5::Widgets)
 
 target_sources(${PROJECT_NAME} PRIVATE
 "common.h"
