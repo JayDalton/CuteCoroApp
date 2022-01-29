@@ -84,13 +84,6 @@ auto main(int argc, char* argv[]) -> int
             cond_variable.wait(lock);
          }
 
-         if (!cond_variable.wait(lock, token, [&] { return !result.empty(); }))
-         {
-            qWarning() << "cancled";
-            return {};
-         }
-
-
          std::cout << std::format("\tConsume Input\n");
          while (!result.empty())
          {
