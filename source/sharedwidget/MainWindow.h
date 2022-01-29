@@ -7,6 +7,7 @@
 #include <condition_variable>
 #include <chrono>
 #include <deque>
+#include <queue>
 #include <iostream>
 #include <sstream>
 #include <forward_list>
@@ -18,9 +19,6 @@
 #include <vector>
 #include <random>
 #include <format>
-
-
-//#include "Calculator.h"
 
 struct QueueData final
 {
@@ -37,44 +35,44 @@ struct QueueData final
 template<typename T>
 class Queue 
 {
-   std::deque<T> m_queue;
+   std::list<T> m_content;
    mutable std::mutex m_mutex;
    const std::size_t m_size{ 42 };
-   std::condition_variable_any m_cv;
+   std::condition_variable_any m_signal;
 
 public:
    Queue() = default;
    Queue(const Queue<T>&) = delete;
    Queue& operator=(const Queue<T>&) = delete;
 
-   void push(const T& item) 
+   void push(T&& item) 
    {
-      std::scoped_lock lock(m_mutex);
-      m_queue.push_back(item);
-      if (m_size < m_queue.size())
+      std::lock_guard lock(m_mutex);
+      while (m_size <= m_content.size())
       {
-         m_queue.resize(m_size);
+         m_content.pop_front();
       }
-      m_cv.notify_one();
+      m_content.push_back(item);
+      m_signal.notify_one();
    }
 
    std::vector<T> values() const
    {
       std::scoped_lock lock(m_mutex);
-      return { m_queue.cbegin(), m_queue.cend() };
+      return { m_content.cbegin(), m_content.cend() };
    }
 
    std::optional<T> take(std::stop_token stop)
    {
       std::unique_lock lock(m_mutex);
-      if (!m_cv.wait(lock, stop, [&] { return !m_queue.empty(); }))
+      if (!m_signal.wait(lock, stop, [&] { return !m_content.empty(); }))
       {
          qWarning() << "cancled";
          return {};
       }
 
-      const T data{ m_queue.front() };
-      m_queue.pop_front();
+      const T data{ m_content.front() };
+      m_content.pop_front();
       return data;
    }
 };
@@ -85,7 +83,6 @@ class MainWindow final : public QMainWindow
 
 public:
    MainWindow();
-   ~MainWindow() override = default;
 
 protected:
    void keyPressEvent(QKeyEvent *event) override;
@@ -94,7 +91,6 @@ protected:
 private:
    Queue<QueueData> m_export;
    Queue<QueueData> m_import;
-
-   std::vector<std::jthread> m_threads;
+   std::jthread m_thread;
 };
 

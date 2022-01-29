@@ -3,32 +3,26 @@
 #include <QtWidgets>
 
 MainWindow::MainWindow()
-{
-   setMinimumSize(QSize(400, 900));
-   setWindowTitle(QApplication::applicationName());
+   : m_thread([&](std::stop_token stop) {
 
-   auto handleQueue = [&](std::stop_token stop)
-   {
       std::random_device rd;
       std::mt19937 eng(rd());
-      std::uniform_int_distribution<> dist(1, 1000);
+      std::uniform_int_distribution<> dist(1, 500);
 
-      while (!stop.stop_requested())
+      while (auto data = m_export.take(stop))
       {
-         // between 1 and 1000ms per our distribution
+         // between 1 and 500ms per our distribution
          std::chrono::milliseconds duration(dist(eng));
          std::this_thread::sleep_for(duration);
 
-         if (auto data = m_export.take(stop))
-         {
-            auto value{ data.value().m_value };
-            m_import.push({value * 2, duration});
-            update();
-         }
+         auto value{ data.value().m_value };
+         m_import.push({ value * 2, duration });
+         update();
       }
-   };
-
-   m_threads.push_back(std::jthread(handleQueue));
+   })
+{
+   setMinimumSize(QSize(400, 900));
+   setWindowTitle(QApplication::applicationName());
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -65,3 +59,4 @@ void MainWindow::paintEvent(QPaintEvent* event)
       display.drawText(window, flags, data.toString(), &logger);
    }
 }
+
