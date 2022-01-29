@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <deque>
+#include <queue>
 #include <coroutine>
 #include <concepts>
 #include <iostream>
@@ -20,6 +21,7 @@
 #include <iostream>
 #include <variant>
 #include <coroutine>
+#include <semaphore>
 
 #include <condition_variable>
 #include <mutex>
