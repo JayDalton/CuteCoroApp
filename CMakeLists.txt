@@ -35,6 +35,8 @@ message(STATUS "Unity builds are ${CMAKE_UNITY_BUILD}")
 
 # Prepare the build
 add_subdirectory(source/common)
+add_subdirectory(source/consolecoroutine)
+add_subdirectory(source/consolesemaphore)
 add_subdirectory(source/consolestandard)
 add_subdirectory(source/coroconsole)
 add_subdirectory(source/coroqtwidget)
